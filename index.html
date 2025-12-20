@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Café • Cafeteria Premium</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .hero {
+
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            color: white;
+
+        }
+
+        .logo-img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/924/924514.png" alt="Logo Meu Café" class="logo-img">
+                <span>Meu Café</span>
+            </div>
+
+            <button class="menu-btn">☰</button>
+
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#produtos">Produtos</a></li>
+                <li><a href="#localizacao">Localização</a></li>
+            </ul>
+
+            <button id="theme-toggle" class="theme-toggle">🌙</button>
+
+        </nav>
+    </header>
+
+    <section id="home" class="hero fade-in">
+        <div class="hero-content">
+            <h1>O Café Que Transforma Seus Dias</h1>
+            <p>Sabores únicos preparados com carinho para você.</p>
+            <a href="#produtos" class="btn">Conheça nossos cafés</a>
+        </div>
+    </section>
+
+    <section id="sobre" class="sobre fade-in">
+        <div class="container">
+            <h2>Sobre Nós</h2>
+            <p>Somos apaixonados por café e dedicados a criar momentos especiais através de bebidas artesanais,
+                ambiente acolhedor e atendimento impecável.</p>
+        </div>
+    </section>
+
+    <section id="produtos" class="produtos fade-in">
+        <div class="container">
+            <h2>Nossos Produtos</h2>
+
+            <div class="produtos-grid">
+
+                <article class="produto-card">
+                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80"
+                        alt="Espresso Especial">
+                    <h3>Espresso Especial</h3>
+                    <span class="preco">R$ 20,00</span>
+                    <button class="btn add-cart" data-name="Espresso Especial" data-price="20">Adicionar ao
+                        carrinho</button>
+                </article>
+
+                <article class="produto-card">
+                    <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80"
+                        alt="Cappuccino Cremoso">
+                    <h3>Cappuccino Cremoso</h3>
+                    <span class="preco">R$ 18,00</span>
+                    <button class="btn add-cart" data-name="Cappuccino" data-price="18">Adicionar ao carrinho</button>
+                </article>
+
+                <article class="produto-card">
+                    <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80"
+                        alt="Latte">
+                    <h3>Latte</h3>
+                    <span class="preco">R$ 16,00</span>
+                    <button class="btn add-cart" data-name="Latte" data-price="16">Adicionar ao carrinho</button>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="localizacao" class="localizacao fade-in">
+        <div class="container">
+            <h2>Onde Estamos</h2>
+
+            <p><strong>Telefone:</strong> (61) 99508-4627</p>
+            <p><strong>Email:</strong> gerneo09@hotmail.com</p>
+
+            <div class="mapa">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3839.346059371755!2d-47.9292!3d-15.7801!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDQ2JzQ4LjQiUyA0N8KwNTUnNDUuMSJX!5e0!3m2!1spt-BR!2sbr!4v1600000000000!5m2!1spt-BR!2sbr"
+                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <button class="cart-toggle-btn">🛒 <span class="cart-count">0</span></button>
+
+    <aside class="cart-sidebar">
+        <button class="cart-close">×</button>
+        <h3>Carrinho</h3>
+        <div class="cart-items"></div>
+        <p class="cart-total">Total: R$ 0,00</p>
+        <button class="btn finalizar-btn">Finalizar Compra</button>
+    </aside>
+
+    <a href="https://wa.me/5561995084627" target="_blank" class="whatsapp-btn">💬</a>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Meu Café. Todos os direitos reservados.</p>
+            <p>Desenvolvido por: Gerzain Fori Lasso Neiva Jr</p>
+        </div>
+    </footer>
+
+
+
+</body>
+
+</html>
