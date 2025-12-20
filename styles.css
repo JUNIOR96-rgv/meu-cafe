@@ -1,187 +1,127 @@
-:root {
-    --bg-color: #f9f9f9;
-    --text-color: #333;
-    --primary-color: #d3ad7f;
-    --secondary-color: #222;
-    --card-bg: #fff;
-    --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    --border-radius: 8px;
-    --nav-bg: rgba(255, 255, 255, 0.95);
-}
+document.addEventListener('DOMContentLoaded', () => {
 
-[data-theme="dark"] {
-    --bg-color: #1a1a1a;
-    --text-color: #f0f0f0;
-    --primary-color: #d3ad7f;
-    --secondary-color: #000;
-    --card-bg: #2d2d2d;
-    --shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    --nav-bg: rgba(26, 26, 26, 0.95);
-}
+  
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    scroll-behavior: smooth;
-    transition: background-color 0.3s, color 0.3s;
-}
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-}
+    themeToggle.addEventListener('click', () => {
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    });
 
-ul { list-style: none; }
-a { text-decoration: none; color: inherit; }
+  
+    const menuBtn = document.querySelector('.menu-btn');
+    const navLinks = document.querySelector('.nav-links');
 
-header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 1000;
-    background: var(--nav-bg);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(10px);
-}
+    menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        menuBtn.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+    });
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 7%;
-    height: 70px;
-}
+  
+    const cartBtn = document.querySelector('.cart-toggle-btn');
+    const cartSidebar = document.querySelector('.cart-sidebar');
+    const cartClose = document.querySelector('.cart-close');
+    const cartItemsDiv = document.querySelector('.cart-items');
+    const cartCount = document.querySelector('.cart-count');
+    const cartTotal = document.querySelector('.cart-total');
+    const finalizarBtn = document.querySelector('.finalizar-btn');
+    
+    let cart = [];
 
-.logo {
-    display: flex;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-}
+    cartBtn.addEventListener('click', () => cartSidebar.classList.add('open'));
+    cartClose.addEventListener('click', () => cartSidebar.classList.remove('open'));
 
-.nav-links { display: flex; gap: 2rem; }
-.nav-links a:hover { color: var(--primary-color); }
+    document.querySelectorAll('.add-cart').forEach(button => {
+        button.addEventListener('click', () => {
+            const name = button.dataset.name;
+            const price = parseFloat(button.dataset.price);
+            
+            const item = cart.find(i => i.name === name);
+            if(item) {
+                item.qty++;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            updateCart();
+            cartSidebar.classList.add('open'); // Abre o carrinho ao adicionar
+        });
+    });
 
-.menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--text-color);
-}
+    function updateCart() {
+        cartItemsDiv.innerHTML = '';
+        let total = 0;
+        let count = 0;
 
-.theme-toggle {
-    background: none;
-    border: 1px solid var(--text-color);
-    border-radius: 50%;
-    width: 35px; height: 35px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-}
+        cart.forEach((item, index) => {
+            total += item.price * item.qty;
+            count += item.qty;
+            cartItemsDiv.innerHTML += `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">
+                    <div>
+                        <div style="font-weight:bold;">${item.name}</div>
+                        <small>R$ ${item.price.toFixed(2)} x ${item.qty}</small>
+                    </div>
+                    <button onclick="removeItem(${index})" style="background:none; border:none; color:red; cursor:pointer;">✕</button>
+                </div>`;
+        });
 
-.hero {
-    height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center;
-    padding: 0 20px;
-}
-
-.hero-content h1 {
-    font-size: 3.5rem;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin-bottom: 1rem;
-}
-
-.btn {
-    display: inline-block;
-    padding: 10px 30px;
-    background: var(--primary-color);
-    color: #fff;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: transform 0.3s;
-}
-
-.btn:hover { transform: scale(1.05); }
-
-section { padding: 5rem 7%; }
-h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--primary-color); }
-
-.produtos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-}
-
-.produto-card {
-    background: var(--card-bg);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    text-align: center;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s;
-}
-
-.produto-card:hover { transform: translateY(-10px); }
-.produto-card img { width: 100%; height: 200px; object-fit: cover; border-radius: var(--border-radius); }
-
-.cart-toggle-btn {
-    position: fixed; bottom: 30px; right: 30px;
-    width: 60px; height: 60px; border-radius: 50%;
-    background: var(--primary-color); color: white;
-    border: none; cursor: pointer; z-index: 1001;
-}
-
-.cart-count {
-    position: absolute; top: -5px; right: -5px;
-    background: red; font-size: 0.8rem;
-    width: 20px; height: 20px; border-radius: 50%;
-    display: flex; justify-content: center; align-items: center;
-}
-
-.cart-sidebar {
-    position: fixed; top: 0; right: 0;
-    width: 350px; height: 100%;
-    background: var(--card-bg);
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    z-index: 1002;
-}
-
-.cart-sidebar.open { transform: translateX(0); }
-.cart-close { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; background: none; border: none; color: var(--text-color); }
-
-.whatsapp-btn {
-    position: fixed; bottom: 100px; right: 35px;
-    background: #25d366; color: white;
-    width: 50px; height: 50px; border-radius: 50%;
-    display: flex; justify-content: center; align-items: center;
-    font-size: 1.8rem; z-index: 1001;
-}
-
-footer { background: var(--secondary-color); color: #fff; text-align: center; padding: 2rem 0; }
-
-.fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
-
-@media (max-width: 768px) {
-    .menu-btn { display: block; }
-    .nav-links {
-        position: absolute; top: 70px; right: 0; width: 100%;
-        background: var(--nav-bg); flex-direction: column;
-        align-items: center; padding: 2rem 0;
-        clip-path: circle(0% at 100% 0);
-        transition: clip-path 0.5s ease;
+        cartCount.textContent = count;
+        cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
     }
-    .nav-links.active { clip-path: circle(150% at 100% 0); }
-    .cart-sidebar { width: 100%; }
-}
+
+    // Função para remover item (precisa estar no escopo global para o onclick funcionar)
+    window.removeItem = (index) => {
+        cart.splice(index, 1);
+        updateCart();
+    };
+
+    
+    finalizarBtn.addEventListener('click', () => {
+        if (cart.length === 0) {
+            alert("Seu carrinho está vazio!");
+            return;
+        }
+
+    
+        let mensagem = "☕ *Novo Pedido - Meu Café* \n\n";
+        let totalPedido = 0;
+
+        cart.forEach(item => {
+            const subtotal = item.price * item.qty;
+            mensagem += `• ${item.name} (x${item.qty}) - R$ ${subtotal.toFixed(2)}\n`;
+            totalPedido += subtotal;
+        });
+
+        mensagem += `\n💰 *Total: R$ ${totalPedido.toFixed(2)}*`;
+        mensagem += `\n\n_Por favor, confirme meu pedido!_`;
+
+     
+        const msgEncoded = encodeURIComponent(mensagem);
+        const fone = "5561995084627"; // Seu número
+        
+  
+        window.open(`https://wa.me/${fone}?text=${msgEncoded}`, '_blank');
+        
+       
+        cart = [];
+        updateCart();
+        cartSidebar.classList.remove('open');
+    });
+
+   
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+});
